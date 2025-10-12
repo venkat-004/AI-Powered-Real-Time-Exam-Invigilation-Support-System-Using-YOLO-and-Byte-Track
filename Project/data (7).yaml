@@ -1,0 +1,14 @@
+names:
+- Cheating
+- Invigilator
+- Normal
+nc: 3
+roboflow:
+  license: CC BY 4.0
+  project: ontor-mfqx7
+  url: https://universe.roboflow.com/venkataramanaiah/ontor-mfqx7/dataset/2
+  version: 2
+  workspace: venkataramanaiah
+test: ../test/images
+train: ../train/images
+val: ../valid/images
