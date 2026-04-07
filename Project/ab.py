@@ -15,7 +15,7 @@ invigilator_id = 1      # Invigilator
 normal_id = 2           # Normal
 
 # ✅ Your phone camera stream
-video_path = "http://100.74.13.158:8080/video"
+video_path = "http://192.168.137.133:8080/video"
 cap = cv2.VideoCapture(video_path)
 
 student_status = {}      # {id: "Normal ✅" / "Cheating ❌"}
@@ -127,6 +127,16 @@ def detect_objects():
         for sid in list(suspicion_scores.keys()):
             if current_time - last_update[sid] > 3:
                 suspicion_scores[sid] = max(0, suspicion_scores[sid] - DECAY_RATE)
+
+        # ---- Display Cheating IDs on Top Right ----
+        cheaters = [sid for sid, status in student_status.items() if status == "Cheating ❌"]
+        if cheaters:
+            text = "Cheaters: " + ", ".join(str(sid) for sid in cheaters)
+            (tw, th), _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
+            x = frame.shape[1] - tw - 10   # 10px from right edge
+            y = 30                         # 30px from top
+            cv2.putText(frame, text, (x, y),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
 
         # ✅ Update global frame
         with lock:
